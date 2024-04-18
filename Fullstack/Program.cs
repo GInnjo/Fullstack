@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.ResponseCompression;
 using FullstackApp.Hubs;
+using Fullstack.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,18 @@ builder.Services.AddResponseCompression(opts =>
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login/Logout";
+        options.LogoutPath = "/";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+        options.Cookie.Name = "COCKIES";
+    });
+
 var app = builder.Build();
+DatabaseHandler.Init(builder.Configuration);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -32,7 +45,7 @@ app.MapHub<ChatHub>("/chathub");
 
 app.UseRouting();
 
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
