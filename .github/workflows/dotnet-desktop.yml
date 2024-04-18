@@ -56,10 +56,10 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: Fullstack/Fullstack.sln
-      Test_Project_Path: Fullstack/Fullstack.Tests/Fullstack.Tests.csproj
-      Wap_Project_Directory: Fullstack/Fullstack.Package
-      Wap_Project_Path: Fullstack/Fullstack.Package/Fullstack.Package.wapproj       
+      Solution_Name: Fullstack.sln
+      Test_Project_Path: Fullstack.Tests/Fullstack.Tests.csproj
+      Wap_Project_Directory: Fullstack.Package
+      Wap_Project_Path: Fullstack.Package/Fullstack.Package.wapproj       
 
     steps:
     - name: Checkout
