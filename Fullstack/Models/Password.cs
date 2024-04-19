@@ -6,14 +6,12 @@ namespace Fullstack.Models
     public class Password
     {
         public ObjectId Id { get; set; }
-        public ObjectId UserId { get; set; }
 
         public byte[] hashedPassword;
         public byte[] salt;
 
-        public Password(string plainPassword, ObjectId userid) 
+        public Password(string plainPassword) 
         { 
-            this.UserId = userid;
             this.salt = Hasher.GenerateSalt();
             this.hashedPassword = Hasher.ComputeHash(plainPassword, this.salt);
         }

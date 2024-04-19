@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using Microsoft.Extensions.Configuration;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace Fullstack.Models {
     public class DatabaseHandler
@@ -12,7 +13,7 @@ namespace Fullstack.Models {
         {
             var connectionString = config.GetConnectionString("MongoDB");
             var client = new MongoClient(connectionString);
-            database = client.GetDatabase("Big");
+            database = client.GetDatabase("Fullstack");
         }
 
         public static T Save<T>(T record)
@@ -26,8 +27,6 @@ namespace Fullstack.Models {
             {
                 if (ex.Message.Contains("duplicate key error"))
                 {
-                    //Ööö.. mongo exceptionissa on ilmotus duplicate id:stä muodossa...
-                    //...bla bla bla... { _id: "(joku id)" } ni regexillä parsee sen (joku id) osion ja siinä on id.
                     string pattern = @"_id: ""([^""]+)""";
                     Match match = Regex.Match(ex.Message, pattern);
                     string id = match.Groups[1].Value;
@@ -36,12 +35,29 @@ namespace Fullstack.Models {
                     var filter = Builders<T>.Filter.Eq("_id", id);
                     collection.ReplaceOne(filter, record);
                     Console.WriteLine($"Data with id: {id} has been replaced.");
+
                 }
             }
             return record;
         }
+        public static void Delete<T>(ObjectId id)
+        {
+            if(typeof(T) == typeof(User))
+            {
+                User user = GetById<User>(id);
+                Delete<Password>(user.PasswordId);
+                Delete<Storage>(user.StorageId);
+            }
 
-        public static T GetByObjectID<T>(ObjectId id) 
+            var collection = database.GetCollection<T>(typeof(T).Name);
+            var filter = Builders<T>.Filter.Eq("_id", id);
+            var objectToDelete = collection.Find(filter).FirstOrDefault();
+
+            collection.DeleteOne(filter);
+        }
+
+
+        public static T GetById<T>(ObjectId id) 
         {
             var collection = database.GetCollection<T>(typeof(T).Name);
             var filter = Builders<T>.Filter.Eq("_id", id);

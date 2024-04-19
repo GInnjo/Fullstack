@@ -21,6 +21,7 @@ public class User
 
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLogin { get; set; }
+    public ObjectId PasswordId { get; set; }
     public ObjectId StorageId { get; set; }
     public User() { }
 }

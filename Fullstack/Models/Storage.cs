@@ -10,9 +10,6 @@ public class Storage
     [BsonRepresentation(BsonType.ObjectId)]
     [ReadOnly(true)]
     public ObjectId Id { get; set; }
-
-    public ObjectId PlayerId { get; set; }
-
     public List<Item> Inventory { get; set; }
     public List<Item> Bank { get; set; }
 
