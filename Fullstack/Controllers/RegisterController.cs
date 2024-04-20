@@ -1,41 +1,43 @@
 ﻿using Fullstack.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fullstack.Controllers
+namespace Fullstack.Controllers;
+
+[Authorize(Policy = "DenyAuthenticated")]
+public class RegisterController : Controller
 {
-    public class RegisterController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TryRegister(RegisterViewModel form)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> TryRegister(RegisterViewModel form)
+    {
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
+            Password password = new Password(form.Password);
+            DatabaseHandler.Save(password);
+            Storage storage = new Storage();
+            DatabaseHandler.Save(storage);
+
+            User user = new User
             {
-                Password password = new Password(form.Password);
-                DatabaseHandler.Save(password);
-                Storage storage = new Storage();
-                DatabaseHandler.Save(storage);
+                FirstName = form.FirstName,
+                LastName = form.LastName,
+                Email = form.Email,
+                CreatedAt = DateTime.Now,
+                Role = "User",
+                PasswordId = password.Id,
+                StorageId = storage.Id,
+                Username = form.Username
+            };
+            DatabaseHandler.Save(user);
 
-                User user = new User
-                {
-                    FirstName = form.FirstName,
-                    LastName = form.LastName,
-                    Email = form.Email,
-                    CreatedAt = DateTime.Now,
-                    Role = "User",
-                    PasswordId = password.Id,
-                    StorageId = storage.Id
-                };
-                DatabaseHandler.Save(user);
-
-                DatabaseHandler.Delete<User>(user.Id);
-            }
-            return View("Index", form);
+            //DatabaseHandler.Delete<User>(user.Id);
         }
+        return View("Index", form);
     }
 }

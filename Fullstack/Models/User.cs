@@ -18,7 +18,8 @@ public class User
     public string? LastName { get; set; }
     [Required]
     public string? Email { get; set; }
-
+    [Required]
+    public string? Username { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? LastLogin { get; set; }
     public ObjectId PasswordId { get; set; }

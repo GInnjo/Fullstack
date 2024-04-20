@@ -21,9 +21,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login";
         options.AccessDeniedPath = "/Login/Logout";
         options.LogoutPath = "/";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         options.Cookie.Name = "COCKIES";
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DenyAuthenticated", policy =>
+    {
+        policy.RequireAssertion(context => !context.User.Identity.IsAuthenticated);
+    });
+});
 
 var app = builder.Build();
 DatabaseHandler.Init(builder.Configuration);

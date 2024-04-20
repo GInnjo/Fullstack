@@ -65,6 +65,14 @@ namespace Fullstack.Models {
             return result;
         }
 
+        public static User GetUserByEmail(string email)
+        {
+            var collection = database?.GetCollection<User>("User");
+            var filter = Builders<User>.Filter.Eq("Email", email);
+            var result = collection?.Find(filter).FirstOrDefault();
+            return result;
+        }
+
         public static List<T> GetAll<T>(string table) 
         {
             var collection = database.GetCollection<T>(table);

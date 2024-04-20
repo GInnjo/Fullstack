@@ -27,14 +27,8 @@ public class Hasher
 
     public static bool VerifyHash(string password, byte[] hash, byte[] salt)
     {
-        if (hash == ComputeHash(password, salt))
-        {
-            return true;
-        }
-        else 
-        {
-            return false;
-        }
+        var newHash = ComputeHash(password, salt);
+        return hash.SequenceEqual(newHash);
     }
 
 }

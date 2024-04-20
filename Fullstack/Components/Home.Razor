@@ -23,13 +23,14 @@
 <ul id="messagesList">
     @foreach (var message in messages)
     {
-        <li>@message</li>
+        <li>@message.Item1</li>
+        <p>@message.Item2</p>
     }
 </ul>
 
 @code {
     private HubConnection? hubConnection;
-    private List<string> messages = new List<string>();
+    private List<(string, string)> messages = new List<(string, string)>();
     private string? userInput;
     private string? messageInput;
 
@@ -41,8 +42,9 @@
 
         hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
         {
-            var encodedMsg = $"{user}: {message}";
-            messages.Add(encodedMsg);
+            var encodedUser = $"{user}";
+            var encodedMsg = $"{message}";
+            messages.Add((encodedUser, encodedMsg));
             InvokeAsync(StateHasChanged);
         });
 
