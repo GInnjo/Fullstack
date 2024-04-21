@@ -27,14 +27,24 @@ namespace Fullstack.Models {
             {
                 if (ex.Message.Contains("duplicate key error"))
                 {
-                    string pattern = @"_id: ""([^""]+)""";
-                    Match match = Regex.Match(ex.Message, pattern);
-                    string id = match.Groups[1].Value;
+                    // Extract the id, if set string in Mongo DB, from the error message
+                    string pattern1 = @"_id: ""([^""]+)""";
+                    // Extract the id, if set ObjectId in Mongo DB, from the error message
+					string pattern2 = @"_id:\s*ObjectId\('([^']+)'\)";
+					Match match1 = Regex.Match(ex.Message, pattern1);
+					Match match2 = Regex.Match(ex.Message, pattern2);
+					string id = match1.Groups[1].Value;
+                    ObjectId oid = ObjectId.Parse(match2.Groups[1].Value);
 
 
-                    var filter = Builders<T>.Filter.Eq("_id", id);
+                    var filter = id switch
+                    {
+						"" => Builders<T>.Filter.Eq("_id", oid),
+						_ => Builders<T>.Filter.Eq("_id", id)
+					};
+
                     collection.ReplaceOne(filter, record);
-                    Console.WriteLine($"Data with id: {id} has been replaced.");
+                    Console.WriteLine($"Data with id: {id}{oid} has been replaced.");
 
                 }
             }

@@ -36,7 +36,7 @@ public class RegisterController : Controller
             };
             DatabaseHandler.Save(user);
 
-            //DatabaseHandler.Delete<User>(user.Id);
+            return RedirectToAction("Index", "Login");
         }
         return View("Index", form);
     }

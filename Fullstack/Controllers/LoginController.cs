@@ -31,15 +31,18 @@ public class LoginController : Controller
                 if (password.VerifyPassword(form.Password))
                 {
                     var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Role, user.Role),
-                    new Claim(ClaimTypes.Email, user.Email)
-                };
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Role, user.Role),
+                        new Claim(ClaimTypes.Email, user.Email)
+                    };
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    user.LastWebLogin = DateTime.Now;
+                    DatabaseHandler.Save(user);
 
                     return RedirectToAction("Index", "Home");
                 }
