@@ -21,6 +21,7 @@ namespace Fullstack.Models
         public string Email { get; set; }
 
         [Required]
+        [StringLength(100, MinimumLength = 10)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -29,5 +30,10 @@ namespace Fullstack.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [StringLength(20, MinimumLength = 4)]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Only letters and numbers are allowed.")]
+        public string? Username { get; set; }
     }
 }

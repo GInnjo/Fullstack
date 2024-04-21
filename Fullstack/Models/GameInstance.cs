@@ -19,6 +19,7 @@ public class GameInstance
 
     public ObjectId? OwnerPlayerId { get; set; }
     public List<ObjectId> InvitedPlayerIds { get; set; }
+    public ObjectId FishMapId { get; set; }
 
     public GameInstance() 
     { 
