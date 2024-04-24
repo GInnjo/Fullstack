@@ -7,58 +7,65 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SignalRTest.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Island Fisher</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
-                            </li>
-                            <li class="nav-item at-right">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="TryLogout" method="post">Logout</a>
-                            </li>
-                        }
-                        else if (User.IsInRole("User"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
-                            </li>
-                            <li class="nav-item at-right">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Logout" asp-action="TryLogout" method="post">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+        <div class="w=100 d-flex justify-content-center">
+            <div class="w-25  pt-2">
+                <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Home" asp-action="Index">Island Fisher</a>
             </div>
-        </nav>
+            <div class="w-50">
+                <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid justify-content-center">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span><img src="~/nav-bar-toggle.png" class="nav-toggle-image" /></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-md-inline-flex justify-content-center">
+                                    <ul class="navbar-nav flex-grow-1 justify-content-center">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
+                                </li>
+                                }
+                                else if (User.IsInRole("User"))
+                                {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Account" asp-action="Index">Account</a>
+                                </li>
+                                }
+                                else
+                                {
+                                <li class="nav-item">
+                                        <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Register" asp-action="Index">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                                </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="w-25  pt-2">
+                @if (User.IsInRole("Admin") || User.IsInRole("User"))
+                {
+                    <a class="nav-link text-dark txtMiddle" asp-area="" asp-controller="Logout" asp-action="TryLogout" method="post">Logout</a>
+                }
+            </div>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">

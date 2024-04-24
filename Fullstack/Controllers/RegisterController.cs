@@ -18,7 +18,27 @@ public class RegisterController : Controller
     {
         if (ModelState.IsValid)
         {
-            Password password = new Password(form.Password);
+			User userWithSameEmail = DatabaseHandler.GetUserByEmail(form.Email);
+
+            if (userWithSameEmail != null)
+            {
+				ModelState.AddModelError("", "Email already in use");
+			}
+
+			User userWithSameUsername = DatabaseHandler.GetUserByUsername(form.Username);
+
+			if (userWithSameUsername != null)
+            {
+				ModelState.AddModelError("", "Username already in use");
+			}
+
+			if (userWithSameEmail != null || userWithSameUsername != null)
+            {
+				return View("Index", form);
+			}
+            
+
+			Password password = new Password(form.Password);
             DatabaseHandler.Save(password);
             Storage storage = new Storage();
             DatabaseHandler.Save(storage);
