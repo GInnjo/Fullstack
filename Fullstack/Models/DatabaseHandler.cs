@@ -9,9 +9,13 @@ namespace Fullstack.Models {
     {
         public static IMongoDatabase? database;
 
-        public static void Init(IConfiguration config)
+        public static void Init(IConfiguration config, bool dev)
         {
-            var connectionString = config.GetConnectionString("MongoDB");
+            var connectionString = dev switch
+            {
+               true => config.GetConnectionString("MongoDBdev"),
+               false => config.GetConnectionString("MongoDB")
+            };
             var client = new MongoClient(connectionString);
             database = client.GetDatabase("Fullstack");
         }
