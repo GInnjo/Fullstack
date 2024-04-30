@@ -9,9 +9,13 @@ namespace Fullstack.Models {
     {
         public static IMongoDatabase? database;
 
-        public static void Init(IConfiguration config)
+        public static void Init(IConfiguration config, bool dev)
         {
-            var connectionString = config.GetConnectionString("MongoDB");
+            var connectionString = dev switch
+            {
+               true => config.GetConnectionString("MongoDBdev"),
+               false => config.GetConnectionString("MongoDB")
+            };
             var client = new MongoClient(connectionString);
             database = client.GetDatabase("Fullstack");
         }
@@ -83,7 +87,15 @@ namespace Fullstack.Models {
             return result;
         }
 
-        public static List<T> GetAll<T>(string table) 
+		public static User GetUserByUsername(string username)
+		{
+			var collection = database?.GetCollection<User>("User");
+			var filter = Builders<User>.Filter.Eq("Username", username);
+			var result = collection?.Find(filter).FirstOrDefault();
+			return result;
+		}
+
+		public static List<T> GetAll<T>(string table) 
         {
             var collection = database.GetCollection<T>(table);
             return collection.Find(new BsonDocument()).ToList();

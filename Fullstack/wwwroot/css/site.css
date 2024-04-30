@@ -32,3 +32,12 @@ body {
 .at-right {
     margin-left: auto;
 }
+
+.txtMiddle {
+    text-align: center;
+}
+
+.nav-toggle-image {
+    width: auto;
+    height: 20px;
+}

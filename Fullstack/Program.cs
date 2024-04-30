@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using FullstackApp.Hubs;
 using Fullstack.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-DatabaseHandler.Init(builder.Configuration);
+DatabaseHandler.Init(builder.Configuration, app.Environment.IsDevelopment());
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,7 +45,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseResponseCompression();
 app.MapBlazorHub();
