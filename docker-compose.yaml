@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  fullstack:
+    image: fullstack
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - mongo
+
+  caddy:
+    image: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - fullstack
+
+  mongo:
+    image: mongo
+    restart: always
+
+    volumes:
+      - mongo_data:/data/db
+  
+    ports:
+      - "27017:27017"
+
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: your_username
+#      MONGO_INITDB_ROOT_PASSWORD: your_password
+
+volumes:
+  caddy_data:
+  caddy_config:
+  mongo_data:
