@@ -11,13 +11,21 @@ services:
 
   nomad:
     image: multani/nomad
-    command: agent
+    command: agent -server
     privileged: true
-    network_mode: "host"
+    ports:
+      - "4646:4646"
+      - "4647:4647"
+      - "4648:4648"
     environment:
       NOMAD_LOCAL_CONFIG: |
+        server {
+          enabled = true
+          bootstrap_expect = 1
+        }
         datacenter = "dc1"
         data_dir = "/opt/nomad/data"
+        bind_addr = "0.0.0.0"
     volumes:
       - nomad_data:/nomad/data/
 
@@ -39,7 +47,7 @@ services:
 
     volumes:
       - mongo_data:/data/db
-  
+
     ports:
       - "27017:27017"
 
