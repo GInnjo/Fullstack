@@ -9,7 +9,6 @@ services:
     depends_on:
       - mongo
 
-services:
   nomad:
     image: multani/nomad
     command: agent
@@ -19,7 +18,6 @@ services:
       NOMAD_LOCAL_CONFIG: |
         datacenter = "dc1"
         data_dir = "/opt/nomad/data"
-        bind_addr = "0.0.0.0"
     volumes:
       - nomad_data:/nomad/data/
 
