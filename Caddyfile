@@ -1,3 +1,11 @@
-localhost:8080 {
+ovai.dev {
     reverse_proxy fullstack:8080
+}
+
+
+nomad.ovai.dev {
+    basicauth /* {
+        Erektionisti $2a$14$yiLcq3iTmsm9Da5Lql9Ed.65eDq.mF6QadYHoKJLaF3bISwT8zGaW
+    }
+    reverse_proxy nomad:4646
 }
