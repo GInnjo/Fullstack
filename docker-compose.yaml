@@ -28,6 +28,7 @@ services:
         bind_addr = "0.0.0.0"
     volumes:
       - nomad_data:/nomad/data/
+    network_mode: host
 
   caddy:
     image: caddy
@@ -40,6 +41,7 @@ services:
       - "443:443"
     depends_on:
       - fullstack
+    network_mode: host
 
   mongo:
     image: mongo
@@ -50,6 +52,7 @@ services:
 
     ports:
       - "27017:27017"
+
 
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: your_username
