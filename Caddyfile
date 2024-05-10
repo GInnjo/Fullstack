@@ -9,3 +9,7 @@ nomad.ovai.dev {
     }
     reverse_proxy nomad:4646
 }
+
+10.0.1.10/gamehub {
+    reverse_proxy fullstack:8080/gamehub
+}
