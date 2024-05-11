@@ -13,8 +13,9 @@ public class Storage
     public List<Item> Inventory { get; set; }
     public List<Item> Bank { get; set; }
 
-    public Storage() 
+    public Storage(ObjectId id) 
     { 
+        this.Id = id;
         Inventory = new List<Item>();
         Bank = new List<Item>();
     }

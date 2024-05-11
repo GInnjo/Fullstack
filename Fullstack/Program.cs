@@ -49,7 +49,7 @@ app.UseStaticFiles();
 app.UseResponseCompression();
 app.MapBlazorHub();
 app.MapHub<ChatHub>("/chathub");
-
+app.MapHub<GameHub>("/gamehub");
 
 app.UseRouting();
 

@@ -62,10 +62,10 @@ namespace Fullstack.Controllers
 			{
 				if (form.Password == form.ConfirmPassword)
 				{
-					Password password = DatabaseHandler.GetById<Password>(user.PasswordId);
+					Password password = DatabaseHandler.GetById<Password>(user.Id);
 					if (password.VerifyPassword(form.CurrentPassword))
 					{
-						Password dummy_psw = new Password(form.Password);
+						Password dummy_psw = new Password(user.Id, form.Password);
 						password.hashedPassword = dummy_psw.hashedPassword;
 						password.salt = dummy_psw.salt;
 						DatabaseHandler.Save(password);

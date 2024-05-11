@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 namespace FullstackApp.Hubs;
 
-public class GameInstanceHub : Hub
+public class GameHub : Hub
 {
     public override async Task OnConnectedAsync()
     {
-        Console.WriteLine("A client connected to the GameInstanceHub.");
+        Console.WriteLine("A client connected to the Game Hub.");
         await base.OnConnectedAsync();
     }
 

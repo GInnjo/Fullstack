@@ -23,7 +23,5 @@ public class User
     public DateTime CreatedAt { get; set; }
     public DateTime? LastWebLogin { get; set; }
 	public DateTime? LastGameLogin { get; set; }
-	public ObjectId PasswordId { get; set; }
-    public ObjectId StorageId { get; set; }
     public User() { }
 }

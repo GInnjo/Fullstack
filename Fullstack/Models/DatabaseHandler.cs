@@ -59,8 +59,9 @@ namespace Fullstack.Models {
             if(typeof(T) == typeof(User))
             {
                 User user = GetById<User>(id);
-                Delete<Password>(user.PasswordId);
-                Delete<Storage>(user.StorageId);
+                Delete<Password>(user.Id);
+                Delete<Storage>(user.Id);
+                Delete<GameInstance>(user.Id);
             }
 
             var collection = database.GetCollection<T>(typeof(T).Name);

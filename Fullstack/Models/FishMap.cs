@@ -8,16 +8,10 @@ namespace Fullstack.Models;
 
 public class FishMap
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    [ReadOnly(true)]
-    public ObjectId Id { get; set; }
     [BsonIgnore]
     public Stack<Fish>[,] fishArray { get; set; } = new Stack<Fish>[100, 100];
-    [BsonIgnore]
-    public string letters { get; set; } = "psctbywage";
-    [BsonIgnore]
-    public int fishCount { get; set; } = 10;
+    public string default_letters { get; set; } = "psctbywage";
+    public int default_fishCount { get; set; } = 10;
 
     public string [,] fishes { get; set; }
 
@@ -40,6 +34,17 @@ public class FishMap
     }
 
     public void InitFishMap()
+    {
+        for (int i = 0; i < 100; i++)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                fishes[i, j] = Helpers.GenerateRandomString(default_letters, default_fishCount);
+            }
+        }
+    }
+
+    public void InitFishMap(string letters, int fishCount)
     {
         for (int i = 0; i < 100; i++)
         {

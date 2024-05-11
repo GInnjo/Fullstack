@@ -10,8 +10,9 @@ namespace Fullstack.Models
         public byte[] hashedPassword;
         public byte[] salt;
 
-        public Password(string plainPassword) 
+        public Password(ObjectId id, string plainPassword) 
         { 
+            this.Id = id;
             this.salt = Hasher.GenerateSalt();
             this.hashedPassword = Hasher.ComputeHash(plainPassword, this.salt);
         }
