@@ -1,6 +1,7 @@
 ﻿using Fullstack.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace Fullstack.Controllers;
 
@@ -36,12 +37,7 @@ public class RegisterController : Controller
             {
 				return View("Index", form);
 			}
-            
-
-			Password password = new Password(form.Password);
-            DatabaseHandler.Save(password);
-            Storage storage = new Storage();
-            DatabaseHandler.Save(storage);
+           
 
             User user = new User
             {
@@ -50,11 +46,26 @@ public class RegisterController : Controller
                 Email = form.Email,
                 CreatedAt = DateTime.Now,
                 Role = "User",
-                PasswordId = password.Id,
-                StorageId = storage.Id,
                 Username = form.Username
             };
             DatabaseHandler.Save(user);
+
+            Password password = new Password(user.Id, form.Password);
+            DatabaseHandler.Save(password);
+            Storage storage = new Storage(user.Id);
+            DatabaseHandler.Save(storage);
+
+            GameInstance gameInstance = new GameInstance
+            {
+                Id = user.Id,
+                Name = user.Username + "'s Island",
+                CreatedAt = DateTime.Now,
+                Status = "Active",
+                fishMap = new FishMap()
+            };
+            gameInstance.InvitedPlayerIds.Add(user.Id);
+            gameInstance.fishMap.InitFishMap();
+            DatabaseHandler.Save(gameInstance);
 
             return RedirectToAction("Index", "Login");
         }

@@ -5,6 +5,8 @@ namespace Fullstack.Models.Static;
 
 static public class Helpers
 {
+    static public string all_fishes = "psctbywage";
+
     // Generates decimal number between two double values and cuts the double to 3 decimal places
     static public decimal GetRandomDecimal(double from, double to)
     {
@@ -29,5 +31,24 @@ static public class Helpers
         }
 
         return builder.ToString();
+    }
+
+    public static int GetRandomInt(int from, int to)
+    {
+        Random random = new Random();
+        return random.Next(from, to);
+    }
+
+    public static int GetCharsInString(string str, char c)
+    {
+        int count = 0;
+        foreach (char ch in str)
+        {
+            if (ch == c)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 }

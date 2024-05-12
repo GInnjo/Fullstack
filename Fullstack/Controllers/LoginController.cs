@@ -27,7 +27,7 @@ public class LoginController : Controller
             User user = DatabaseHandler.GetUserByEmail(form.Email);
             if (user != null)
             {
-                Password password = DatabaseHandler.GetById<Password>(user.PasswordId);
+                Password password = DatabaseHandler.GetById<Password>(user.Id);
                 if (password.VerifyPassword(form.Password))
                 {
                     var claims = new List<Claim>

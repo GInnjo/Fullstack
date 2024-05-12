@@ -16,10 +16,8 @@ public class GameInstance
     public DateTime CreatedAt { get; set; }
     public DateTime? LastUpTime { get; set; }
     public string? Status { get; set; }
-
-    public ObjectId? OwnerPlayerId { get; set; }
     public List<ObjectId> InvitedPlayerIds { get; set; }
-    public ObjectId FishMapId { get; set; }
+    public FishMap fishMap { get; set; }
 
     public GameInstance() 
     { 

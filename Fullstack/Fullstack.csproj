@@ -18,4 +18,16 @@
     <PackageReference Include="MongoDB.Driver.Core" Version="2.25.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\maa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\main_art.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\vesi.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
