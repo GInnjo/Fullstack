@@ -7,9 +7,5 @@ nomad.ovai.dev {
     basicauth /* {
         Erektionisti $2a$14$yiLcq3iTmsm9Da5Lql9Ed.65eDq.mF6QadYHoKJLaF3bISwT8zGaW
     }
-    reverse_proxy nomad:4646
-}
-
-10.0.1.10/gamehub {
-    reverse_proxy fullstack:8080/gamehub
+    reverse_proxy 10.0.1.10:4646
 }
