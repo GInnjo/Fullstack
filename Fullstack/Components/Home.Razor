@@ -1,15 +1,15 @@
-﻿@using Microsoft.AspNetCore.SignalR.Client
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
+@using Fullstack.Models
+@using MongoDB.Bson
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager Navigation
 @implements IAsyncDisposable
 
-<div class="form-group">
-    <label>
-        User:
-        <input @bind="userInput" />
-    </label>
-</div>
+<h3>Chat</h3>
 <div class="form-group">
     <label>
         Message:
@@ -29,13 +29,20 @@
 </ul>
 
 @code {
+
     private HubConnection? hubConnection;
     private List<(string, string)> messages = new List<(string, string)>();
     private string? userInput;
     private string? messageInput;
+    private string userId;
+
 
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
         hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
             .Build();
@@ -55,7 +62,8 @@
     {
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("SendMessage", userInput, messageInput);
+            string user_name = DatabaseHandler.GetById<User>(ObjectId.Parse(userId)).Username;
+            await hubConnection.SendAsync("SendMessage", user_name, messageInput);
         }
     }
     
@@ -69,4 +77,6 @@
             await hubConnection.DisposeAsync();
         }
     }
+
+
 }

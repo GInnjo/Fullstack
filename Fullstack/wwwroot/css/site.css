@@ -41,3 +41,46 @@ body {
     width: auto;
     height: 20px;
 }
+
+.chart-graphics {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+}
+
+.img {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    padding: 16% 25% 21% 6%;
+}
+
+.chart-container {
+    position: relative;
+    height: 500px;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.main-image {
+    max-width: 200%;
+    height: auto;
+}
+
+.cll {
+    marigin-left: auto;
+    marigin-right: auto;
+}

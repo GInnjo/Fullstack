@@ -3,21 +3,22 @@ using Fullstack.Models.Static;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.ComponentModel;
+using System.Text.Json;
 
 namespace Fullstack.Models;
 
 public class FishMap
 {
     [BsonIgnore]
-    public Stack<Fish>[,] fishArray { get; set; } = new Stack<Fish>[100, 100];
+    public Stack<Fish>[,] fishArray { get; set; } = new Stack<Fish>[50, 50];
     public string default_letters { get; set; } = "psctbywage";
-    public int default_fishCount { get; set; } = 10;
+    public int default_fishCount { get; set; } = 5;
 
     public string [,] fishes { get; set; }
 
     public FishMap()
     {
-        fishes = new string[100, 100];
+        fishes = new string[50, 50];
         InitFishMap();
     }
 
@@ -33,11 +34,12 @@ public class FishMap
         }
     }
 
+
     public void InitFishMap()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 50; i++)
         {
-            for (int j = 0; j < 100; j++)
+            for (int j = 0; j < 50; j++)
             {
                 fishes[i, j] = Helpers.GenerateRandomString(default_letters, default_fishCount);
             }
@@ -46,9 +48,9 @@ public class FishMap
 
     public void InitFishMap(string letters, int fishCount)
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 50; i++)
         {
-            for (int j = 0; j < 100; j++)
+            for (int j = 0; j < 50; j++)
             {
                 fishes[i, j] = Helpers.GenerateRandomString(letters, fishCount);
             }
@@ -57,9 +59,9 @@ public class FishMap
 
     public void PopulateFishArray()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 50; i++)
         {
-            for (int j = 0; j < 100; j++)
+            for (int j = 0; j < 50; j++)
             {
                 foreach (char fishType in fishes[i, j])
                 {

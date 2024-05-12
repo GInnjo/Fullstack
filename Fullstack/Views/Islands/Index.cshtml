@@ -1,5 +1,97 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Fullstack.Models.Static
+@using Fullstack.Components
+@model string[,]
 @{
+    int i1;
+    int i2;
+    int i3;
 }
+<h2 style="text-align: center;">Your island</h2>
+
+<div class="chart-container">
+    <img src="~/vesi.png" alt="water" class="chart-graphics img" />
+    <canvas id="bubbleChart" class="chart-graphics chart"></canvas>
+    <img src="~/maa.png" alt="land" class="chart-graphics img" />
+</div>
+
+<component type="typeof(Home)" render-mode="Server" />
+
+
+<script>
+    // Define the character-to-label mappings
+    const labelMappings = {
+        'p': 'Pike',
+        's': 'Salmon',
+        't': 'Trout',
+        'c': 'Catfish',
+        'b': 'Burbot',
+        'y': 'YellowPerch',
+        'w': 'Whitefish',
+        'a': 'Walleye',
+        'g': 'Sturgeon',
+        'e': 'Bass'
+    };
+
+    // Initialize the data array for the chart
+    const data = {
+        datasets: [
+            @foreach(char c in Helpers.all_fishes)
+            {<text>
+                {
+                    label: labelMappings['@c'],
+                    data: [
+                        @for (int i = 0; i < Model.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < Model.GetLength(1); j++)
+                            {
+                                int value = Helpers.GetCharsInString(Model[i, j], c);
+                                <text>{ x: @j, y: @i, r: @(value*5) }, </text>
+                            }
+                        }
+                    ],
+            @{
+                i1 = Helpers.GetRandomInt(0, 255); i2 = Helpers.GetRandomInt(0, 255); i3 = Helpers.GetRandomInt(0, 255);
+            }
+                    backgroundColor: 'rgba(@i1, @i2, @i3, 1)',
+                    borderColor: 'rgba(@i1, @i2, @i3, 1)',
+                    hidden: true,
+                },
+            </text>}
+        ]
+    };
+
+
+    // Define chart options
+    const options = {
+        aspectRatio: 1,
+        layout: {
+            padding: {
+                left: 0,
+                right: 0,
+                top: 80,
+                bottom: 80
+            }
+        },
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom'
+            },
+            y: {
+                type: 'linear',
+                position: 'left'
+            }
+        }
+    };
+
+    // Get the canvas element and initialize the chart
+    const ctx = document.getElementById('bubbleChart').getContext('2d');
+    const bubbleChart = new Chart(ctx, {
+        type: 'bubble',
+        data: data,
+        options: options
+    });
+
+    bubbleChart.options.plugins.legend.position = 'right';
+    bubbleChart.update();
+</script>
