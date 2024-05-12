@@ -218,7 +218,7 @@ resource "null_resource" "provisioning_server" {
       "sudo systemctl start docker",
       "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -",
       "sudo apt-add-repository \"deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main\"",
-      "docker login ghcr.io -u ginnjo -p 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",
+      "docker login ghcr.io -u ginnjo -p TOKEN",
       "curl -o docker-compose.yaml https://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@raw.githubusercontent.com/GInnjo/Fullstack/master/docker-compose.yaml",
       "curl -o Caddyfile https://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@raw.githubusercontent.com/GInnjo/Fullstack/master/Caddyfile",
     ]
