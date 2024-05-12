@@ -38,6 +38,7 @@ services:
     image: caddy
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - /certs:/certs
       - caddy_data:/data
       - caddy_config:/config
     ports:
