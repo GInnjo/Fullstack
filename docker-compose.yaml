@@ -24,9 +24,9 @@ services:
           bootstrap_expect = 1
         }
         advertise {
-          http = "10.0.1.10:4646"
-          rpc = "10.0.1.10:4647"
-          serf = "10.0.1.10:4648"
+          http = "10.0.1.100:4646"
+          rpc = "10.0.1.100:4647"
+          serf = "10.0.1.100:4648"
         }
         datacenter = "dc1"
         data_dir = "/opt/nomad/data"
