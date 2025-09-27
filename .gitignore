@@ -11,10 +11,12 @@
 *.sln.docstates
 
 #terraform
-.terraform/
-.ssh/
-google-credentials.json
+Terraformi/
+TerraOld/
 
+#muuta
+character/
+ASPdocker/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -367,6 +369,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Terraformi/.terraform.lock.hcl
-/Terraformi/terraform.tfstate
-/Terraformi/terraform.tfstate.backup
+/Pelkkä Peliservice kontti datat
