@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Fullstack.Models.Static
+@using Fullstack.Components
+@using Fullstack.Models
+@using MongoDB.Bson
+@using System.Security.Claims
+@using System.Text.Json
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+
+<h2 style="text-align: center;">Your island</h2>
+
+<div class="chart-container">
+    <canvas id="pieChart" class="chart-graphics chart"></canvas>
+</div>
+
+<component type="typeof(Home)" render-mode="Server" />
+
+@code {
+    private HubConnection? hubConnection;
+    private string userId;
+    [Parameter]
+    public string[][] FishTable { get; set; }
+    public string tooltipLinesJson = "";
+    private IJSObjectReference? module;
+    private Dictionary<char, string> fishLabels = new Dictionary<char, string> {
+            { 'p', "Pike" },
+            { 's', "Salmon" },
+            { 't', "Trout" },
+            { 'c', "Catfish" },
+            { 'b', "Burbot" },
+            { 'y', "YellowPerch" },
+            { 'w', "Whitefish" },
+            { 'a', "Walleye" },
+            { 'g', "Sturgeon" },
+            { 'e', "Bass" }
+        };
+
+    protected override void OnParametersSet()
+    {    
+        var tooltipLines = new List<List<string>>();
+        for (int slices = 0; slices < 8; slices++)
+        {
+            tooltipLines.Add(new List<string>());
+        }
+
+        foreach (char c in Helpers.all_fishes)
+        {
+            var label = fishLabels.TryGetValue(c, out var name) ? name : c.ToString();
+            int total = 0;
+            int counter = 0;
+            for (int i = 0; i < FishTable.Length; i++)
+            {
+                for (int j = 0; j < FishTable[0].Length; j++)
+                {
+                    total = Helpers.GetCharsInString(FishTable[i][j], c);
+                    tooltipLines[counter].Add($"{label}: {total}");
+                    counter++;
+                }
+            }
+        }
+        tooltipLinesJson = System.Text.Json.JsonSerializer.Serialize(tooltipLines);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./js/fishChart.js");
+            await module.InvokeVoidAsync("renderChart", tooltipLinesJson);
+
+            hubConnection = new HubConnectionBuilder()
+                .WithUrl(Navigation.ToAbsoluteUri($"/GameHub?userId={userId}&clientType=Web"))
+                .Build();
+
+            hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            {
+                InvokeAsync(StateHasChanged);
+            });
+
+            await hubConnection.StartAsync();
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+
+
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+
+}

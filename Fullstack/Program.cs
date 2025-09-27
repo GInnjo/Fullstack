@@ -34,6 +34,9 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddSingleton<TokenStorage>();
+builder.Services.AddHostedService<TokenCleanupService>();
+
 var app = builder.Build();
 DatabaseHandler.Init(builder.Configuration, app.Environment.IsDevelopment());
 
@@ -47,14 +50,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseResponseCompression();
-app.MapBlazorHub();
-app.MapHub<ChatHub>("/chathub");
-app.MapHub<GameHub>("/gamehub");
 
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapBlazorHub();
+app.MapHub<ChatHub>("/chathub");
+app.MapHub<GameHub>("/gamehub");
 
 app.MapControllerRoute(
     name: "default",

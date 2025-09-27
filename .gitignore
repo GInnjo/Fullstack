@@ -17,6 +17,7 @@ TerraOld/
 #muuta
 character/
 ASPdocker/
+/Pelkkä Peliservice kontti datat
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -366,7 +367,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
-# Fody - auto-generated XML schema
-FodyWeavers.xsd
-/Pelkkä Peliservice kontti datat

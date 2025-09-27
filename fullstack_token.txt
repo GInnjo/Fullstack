@@ -1,0 +1,79 @@
+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
+
+read files token:
+
+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
+
+
+
+SSH connection:
+ssh -i C:\Users\ollin\Desktop\Oppari\FULLSTACK\Terraformi\.ssh\id_rsa adminuser@35.228.173.124
+
+ssh -i C:\Users\ollin\Desktop\Oppari\FULLSTACK\Terraformi\.ssh\id_rsa adminuser@34.88.179.94
+
+ghcr.io Login:
+docker login ghcr.io -u ginnjo -p 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
+
+datacenter = "dc1"
+data_dir = "/opt/nomad/data"
+bind_addr = "0.0.0.0"
+
+
+openssl req -new -key server.key -out server.csr -subj "/C=FI/ST=KantaHame/L=Riihimaki/O=Fisher/CN=server.internal"
+
+
+Erektionisti
+maailmantuhoaja1
+$2a$14$yiLcq3iTmsm9Da5Lql9Ed.65eDq.mF6QadYHoKJLaF3bISwT8zGaW
+
+ovai.dev {
+    reverse_proxy fullstack:8080
+}
+
+
+nomad.ovai.dev {
+    basicauth /* {
+        Erektionisti $2a$14$yiLcq3iTmsm9Da5Lql9Ed.65eDq.mF6QadYHoKJLaF3bISwT8zGaW
+    }
+    reverse_proxy nomad:4646
+}
+
+
+
+        advertise {
+          http = "10.0.1.10:4646"
+          rpc = "10.0.1.10:4647"
+          serf = "10.0.1.10:4648"
+        }
+
+
+
+
+
+
+job "game_instance" {
+  datacenters = ["dc1"]
+  type = "service"
+  
+  group "game_instances" {
+    network {
+    	port "http" {
+      to = 5041
+    	}
+    }
+    count = 1
+    
+    task "game" {
+      driver = "docker"
+      
+      config {
+        image = "ghcr.io/ginnjo/fullstack/gameimage"
+        ports = ["http"]
+        auth {
+            username = "ginnjo"
+            password = "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"
+        }
+      }
+    }
+  }
+}

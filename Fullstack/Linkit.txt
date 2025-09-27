@@ -1,0 +1,12 @@
+Mockupit (webbisivusta ja infrasta):
+https://www.figma.com/design/BNlOiAHKGk1ufyNzzdpSOP/FULL-STACK?node-id=0%3A1&t=EnLSwPXFEhP8xXkm-1
+https://www.figma.com/proto/3Ax2r7kIt7u598TNjOBYPv/Untitled?t=EnLSwPXFEhP8xXkm-0&scaling=min-zoom&page-id=0%3A1&node-id=20-165
+
+Pohjakoodit (muutamat tärketä skriptit Blazor+Unity combosta zipissä, loput Github):
+https://github.com/GInnjo/Fullstack
+
+Linkki sivulle:
+https://ovai.dev/
+
+Linkki Nomad verkkokäyttöliittymään (salattu, mutta siellä se):
+https://nomad.ovai.dev/

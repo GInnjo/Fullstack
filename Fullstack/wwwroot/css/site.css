@@ -12,6 +12,8 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+
+
 html {
   position: relative;
   min-height: 100%;
@@ -49,6 +51,8 @@ body {
 }
 
 .chart {
+    left: 0px;
+    top: -50px;
     width: 100%;
     height: 100%;
 }
@@ -83,4 +87,18 @@ body {
 .cll {
     marigin-left: auto;
     marigin-right: auto;
+}
+
+#land-img {
+    left: -15px;
+    top: 15px;
+    height: 100%;
+    width: 100%;
+}
+
+#water-img {
+    left: -37px;
+    top: -26px;
+    height: 114%;
+    width: 108%;
 }
