@@ -10,6 +10,12 @@
 *.userosscache
 *.sln.docstates
 
+#terraform
+.terraform/
+.ssh/
+google-credentials.json
+
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -361,4 +367,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Terraformi/.terraform/providers/registry.terraform.io/hashicorp/null/3.2.3/windows_amd64/terraform-provider-null_v3.2.3_x5.exe
+/Terraformi/.terraform.lock.hcl
+/Terraformi/terraform.tfstate
+/Terraformi/terraform.tfstate.backup
