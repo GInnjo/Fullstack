@@ -1,6 +1,6 @@
 services:
   fullstack:
-    image: fullstack
+    image: ghcr.io/ginnjo/fullstack:latest
     ports:
       - "8080:8080"
       - "8081:8081"
