@@ -2,6 +2,9 @@ ovai.dev {
     reverse_proxy fullstack:8080
 }
 
+:8080 {
+  reverse_proxy fullstack:8080
+}
 
 nomad.ovai.dev {
     basicauth /* {
