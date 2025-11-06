@@ -1,16 +1,42 @@
 services:
   fullstack:
-    image: ghcr.io/ginnjo/fullstack/fullstack:latest
+    image: ghcr.io/ginnjo/fullstack/fullstack
     ports:
       - "8080:8080"
       - "8081:8081"
     depends_on:
       - mongo
 
+  nomad:
+    image: multani/nomad
+    command: agent -server
+    privileged: true
+    ports:
+      - "4646:4646"
+      - "4647:4647"
+      - "4648:4648"
+    environment:
+      NOMAD_LOCAL_CONFIG: |
+        server {
+          enabled = true
+          bootstrap_expect = 1
+        }
+        advertise {
+          http = "10.0.1.10:4646"
+          rpc = "10.0.1.10:4647"
+          serf = "10.0.1.10:4648"
+        }
+        datacenter = "dc1"
+        data_dir = "/opt/nomad/data"
+        bind_addr = "0.0.0.0"
+    volumes:
+      - nomad_data:/nomad/data/
+
   caddy:
     image: caddy
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - /certs:/certs
       - caddy_data:/data
       - caddy_config:/config
     ports:
@@ -25,9 +51,10 @@ services:
 
     volumes:
       - mongo_data:/data/db
-  
+
     ports:
       - "27017:27017"
+
 
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: your_username
@@ -37,3 +64,4 @@ volumes:
   caddy_data:
   caddy_config:
   mongo_data:
+  nomad_data:
